@@ -1,0 +1,43 @@
+version: "3"
+
+services: 
+  cont1:
+    image: mongo
+    ports: 
+      - 30001:27017
+    volumes: 
+      - /home/sayali_karnewar/Documents/follo/mongocluster/cont1:/data/db
+    networks: 
+      - mongocluster
+    command: mongod --replSet replica  
+
+
+  cont2:
+    image: mongo
+    ports: 
+      - 30002:27017
+    volumes: 
+      - /home/sayali_karnewar/Documents/follo/mongocluster/cont2:/data/db
+    networks: 
+      - mongocluster
+    command: mongod --replSet replica  
+    depends_on : 
+      - cont1
+
+  cont3:
+    image: mongo
+    ports: 
+      - 30003:27017
+    volumes: 
+      - /home/sayali_karnewar/Documents/follo/mongocluster/cont3:/data/db
+    networks: 
+      - mongocluster
+    command: mongod --replSet replica    
+    depends_on : 
+      - cont2
+
+
+networks: 
+  mongocluster:
+    driver: bridge
+
